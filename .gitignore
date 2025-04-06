@@ -307,3 +307,6 @@ TSWLatexianTemp*
 
 !reports/*
 !lab1/*
+
+# Ignore pg_sandbox db cluster volumes
+frontier-prep/pg_sandbox/data
