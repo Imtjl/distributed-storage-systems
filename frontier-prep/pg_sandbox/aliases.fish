@@ -38,6 +38,19 @@ function pg_connect
     docker exec -it pg_sandbox psql -U "$user" -d "$db"
 end
 
+function pg_bash
+    docker exec -it pg_sandbox bash
+end
+
+function pg_logs
+    # If no arguments provided, simply show logs
+    if test (count $argv) -eq 0
+        docker logs pg_sandbox
+    # If -f or --follow is provided, follow the logs
+    else if test "$argv[1]" = "-f" -o "$argv[1]" = "--follow"
+        docker logs --follow pg_sandbox
+end
+
 # Запуск скрипта
 function pg_run
     set script $argv[1]
@@ -63,7 +76,6 @@ function pg_run
     end
 end
 
-# Проверка статуса песочницы
 function pg_status
     if docker ps | grep -q pg_sandbox
         echo "PostgreSQL sandbox работает"
@@ -73,13 +85,14 @@ function pg_status
     end
 end
 
-# Помощь
 function pg_help
     echo "Команды для управления PostgreSQL песочницей:"
     echo "  pg_start   - Запуск песочницы"
     echo "  pg_stop    - Остановка песочницы"
     echo "  pg_reset   - Полный сброс данных и перезапуск"
     echo "  pg_connect [db] [user] - Подключение к базе данных (по умолчанию: education, postgres)"
+    echo "  pg_bash    - Запуск bash в контейнере"
+    echo "  pg_logs    - Просмотр логов контейнера"
     echo "  pg_run script [db] [user] - Запуск SQL-скрипта"
     echo "  pg_status  - Проверка статуса песочницы"
     echo "  pg_help    - Показать эту справку"
