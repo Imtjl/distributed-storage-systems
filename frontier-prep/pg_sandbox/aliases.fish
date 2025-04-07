@@ -42,14 +42,6 @@ function pg_bash
     docker exec -it pg_sandbox bash
 end
 
-function pg_logs
-    # If no arguments provided, simply show logs
-    if test (count $argv) -eq 0
-        docker logs pg_sandbox
-    # If -f or --follow is provided, follow the logs
-    else if test "$argv[1]" = "-f" -o "$argv[1]" = "--follow"
-        docker logs --follow pg_sandbox
-end
 
 # Запуск скрипта
 function pg_run
